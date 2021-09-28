@@ -1,4 +1,4 @@
-# BodyValueMeasurer
+# Pose Checker
 Communicates with all the Accelerometer connected to the body
 
 Required Arduino Libraries:
@@ -24,8 +24,7 @@ To use PoseGenerator:
 - [x] Receive data
 - [x] Write data to String
 #### SearchTree Class:
-- [ ] Read DATA file
-- [ ] Search from DATA file
+- [ ] Search from DATA field
 - [ ] Include Errors in searching
 
 ### PoseGenerator:
