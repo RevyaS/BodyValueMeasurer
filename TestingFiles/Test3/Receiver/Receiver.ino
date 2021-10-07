@@ -20,15 +20,23 @@ void loop() {
   if(radio.available())
   {
      memset(str, 0, sizeof(str));
-     radio.read(values, sizeof(values));
+     radio.read(&values, sizeof(values));
      for(int i = 0; i < 5; i++)
      {
       //Get (3 max whole number with 2 decimal point value (5 bytes) /w decimal point (6 bytes) + "," + end char) from value
       char valString[8];
-      sprintf(valString, "%.2f,", values[i]);
+      dtostrf(values[i], -7, 2, valString);
+      trimCh(valString);
       strcat(str, valString);
+      strcat(str, ", ");
      }
      Serial.println(str);
   }
-  delay(200);
+}
+
+//Trim char[]
+void trimCh(char *str)
+{
+  char *p = strchr(str, ' '); //Search for space
+  if(p) *p = 0; //Terminate
 }

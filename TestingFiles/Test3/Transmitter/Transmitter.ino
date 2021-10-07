@@ -57,7 +57,7 @@ void loop() {
   values[3] = atan(values[1] / sqrt( pow(values[0], 2) + pow(values[2], 2))) + 180/PI;
   values[4] = atan(-1 * values[2] / sqrt( pow(values[1], 2) + pow(values[0], 2))) * 180/PI;
   
-  radio.write(values, sizeof(values));
+  radio.write(&values, sizeof(values));
   delay(600);
 }
 
