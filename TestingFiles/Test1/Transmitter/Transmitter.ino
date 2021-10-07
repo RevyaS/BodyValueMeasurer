@@ -13,6 +13,24 @@ void setup() {
 }
 
 void loop() {
-  radio.write(values, sizeof(values));
+  //Write the data
+  char str[96] = "";
+  for(int i = 0; i < 3; i++)
+  {
+    char value[8];
+    dtostrf(values[i], -7, 2, value); //Convert float to char[]
+    trimCh(value);                    //Trim extra spaces
+    strcat(str, value);               //Concat string
+    strcat(str, ", ");
+  }
+  
+  radio.write(&str, sizeof(str));
   delay(600);
+}
+
+void trimCh(char *str)
+{
+  //Find 1st space
+  char *p = strchr(str, ' ');
+  if(p) *p = 0; //Set to end pointer
 }

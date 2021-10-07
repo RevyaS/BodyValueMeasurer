@@ -5,7 +5,6 @@
 const uint64_t address = 250;
 
 RF24 radio = RF24(9, 10);
-float values[12]; 
 char str[96] = "";
 
 void setup() {
@@ -20,15 +19,7 @@ void loop() {
   if(radio.available())
   {
      memset(str, 0, sizeof(str));
-     radio.read(values, sizeof(values));
-     for(int i = 0; i < 12; i++)
-     {
-      //Get (3 max whole number with 2 decimal point value (5 bytes) /w decimal point (6 bytes) + "," + end char) from value
-      char valString[8];
-      sprintf(valString, "%.2f", values[i]);
-      strcat(str, valString);
-     }
+     radio.read(&str, sizeof(str));
      Serial.println(str);
   }
-  delay(200);
 }
