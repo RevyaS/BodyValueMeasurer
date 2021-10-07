@@ -22,7 +22,7 @@ To use PoseGenerator:
 ### Verifier:
 #### Receiver Class:
 - [x] Receive data
-- [x] Write data to String
+- [ ] Write data to char[]
 #### SearchTree Class:
 - [ ] Search from DATA field
 - [ ] Include Errors in searching
