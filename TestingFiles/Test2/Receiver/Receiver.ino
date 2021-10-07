@@ -53,7 +53,14 @@ void loop() {
   values[2] = readWire(); //Last 2 Wire.read() is for Z
 
   memset(str, 0, sizeof(str)); //Clean serial String to ""
-  sprintf(str, "%.2f, %.2f, %.2f", values[0], values[1], values[2]);
+  for(int i = 0; i < 3; i++)
+  {
+    char value[8];
+    dtostrf(values[i], -7, 2, value);
+    trimCh(value);
+    strcat(str, value);
+    strcat(str, ", ");
+  }
   Serial.println(str);
   delay(600);
 }
@@ -65,4 +72,10 @@ float readWire()
   //So 1st Wire.read() is for 1st 8 bits then 2nd Wire.read() is for last 2 bits
   float values = Wire.read() | Wire.read() << 8; //Use | to append both bits
   return values;
+}
+
+float trimCh(char *str)
+{
+  char *p = strchr(str, ' '); //Find 1st instance of space
+  if(p) *p = 0; //Terminate
 }
