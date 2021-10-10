@@ -22,10 +22,10 @@ To use PoseGenerator:
 ### Verifier:
 #### Receiver Class:
 - [x] Receive data
-- [ ] Write data to char[]
+- [x] Write data to char[]
 #### SearchTree Class:
-- [ ] Search from DATA field
-- [ ] Include Errors in searching
+- [x] Search from DATA field
+- [x] Include Errors in searching
 
 ### PoseGenerator:
 #### BoxGuide Class:
