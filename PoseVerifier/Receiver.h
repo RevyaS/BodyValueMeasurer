@@ -14,16 +14,18 @@ class Receiver
     float* receive();
     bool isAvailable();
     char* getSerialString();
+    float* getValues();
   private:
+    void trimCh(char *str); //Trims empty spaces on the right
     RF24 radio;
     // 2 values from roll & pitch * 4 accelerometers = 8 values
     float values[8];
     //String used to communicate /w Pose Generator
-    //(4 values per float + ",") = 5 bytes
-    // 2 floats per accelerometer (roll & pitch) = 10 bytes
-    // 4 accelerometers = 40 bytes
-    // 1 String ender = 41 bytes
-    char serialString[41] = ""; 
+    //(5 values per float /w "." & "-" + ",") = 8 bytes
+    // 2 floats per accelerometer (roll & pitch) = 16 bytes
+    // 4 accelerometers = 64 bytes + "end point" = 65 bytes
+    // +5 extra values just in case = 70 bytes 
+    char serialString[70] = ""; 
 };
 
 #endif
