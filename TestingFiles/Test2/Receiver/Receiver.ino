@@ -3,6 +3,12 @@
 #include "RF24.h"
 #include "SPI.h"
 
+//CALIBRATION AREA
+#define xOffset 0
+#define yOffset 0
+#define zOffset 0
+//END OF CALIBRATION
+
 const uint64_t address; // Communication address
 const int ADXL345 = 0x35; //I2C address
 
@@ -17,29 +23,8 @@ void setup() {
   Wire.write(0x2D); //Access Power Register
   Wire.write(8); //Write for Measuring mode
   Wire.endTransmission();
-
-  //Calibration Area
-  //X Axis
-  Wire.beginTransmission(ADXL345);
-  Wire.write(0x1E); //X offset register
-  Wire.write(0); //Edit here
-  Wire.endTransmission();
   delay(10);
-  //Y Axis
-  Wire.beginTransmission(ADXL345);
-  Wire.write(0x1F); //Y offset register
-  Wire.write(0); //Edit here
-  Wire.endTransmission();
-  delay(10);
-  //Z Axis
-  Wire.beginTransmission(ADXL345);
-  Wire.write(0x20); //Z offset register
-  Wire.write(0); //Edit here
-  Wire.endTransmission();
-  delay(10);
-  //End of Calibration Area
   
-  delay(10);
   Serial.begin(9600);
 }
 
@@ -48,9 +33,9 @@ void loop() {
   Wire.write(0x32); //Access value registers
   Wire.endTransmission(false); //End connection while retaining access
   Wire.requestFrom(ADXL345, 6, true); //2 for each axis, therefore 6
-  values[0] = readWire(); //1st 2 Wire.read() is for X
-  values[1] = readWire(); //Next 2 Wire.read() is for Y
-  values[2] = readWire(); //Last 2 Wire.read() is for Z
+  values[0] = readWire() + xOffset; //1st 2 Wire.read() is for X
+  values[1] = readWire() + yOffset; //Next 2 Wire.read() is for Y
+  values[2] = readWire() + zOffset; //Last 2 Wire.read() is for Z
 
   memset(str, 0, sizeof(str)); //Clean serial String to ""
   for(int i = 0; i < 3; i++)
