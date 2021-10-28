@@ -2,7 +2,7 @@
 #include "RF24.h"
 #include "SPI.h"
 
-const uint64_t address;
+const uint64_t address = 250;
 
 RF24 radio = RF24(9, 10);
 float values[5]; 
