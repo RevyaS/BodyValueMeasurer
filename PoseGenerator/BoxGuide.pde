@@ -9,20 +9,23 @@ class BoxGuide
     box = loadShape(boxPath);
     //box.rotateX(radians(-60));
     //box.rotateY(radians(-30));
-    
+    defX = -90;
     switch(type)
     {
-      case TORSO:
+      case TORSO:        
+        //box.rotateZ(radians(10));
+        //box.resetMatrix();
       case LEFTTHIGH:
-        box.rotateX(radians(-90));
-        box.rotateY(radians(-90));
+        defY = -90;
         break;
       case ARM:
       case RIGHTTHIGH:
-        box.rotateX(radians(-90));
-        box.rotateY(radians(90));
+        defY = 90;
         break;
     }
+    
+    box.rotateX(radians(defX));
+    box.rotateY(radians(defY));
   }
   
   public void draw()
@@ -35,7 +38,25 @@ class BoxGuide
     popMatrix();
   }
   
+  public void setRotation(float roll, float pitch)
+  {
+    this.roll = roll;
+    this.pitch = (defY < 0) ? -pitch : pitch;
+    
+    //Reset box;
+    box.resetMatrix();
+    box.rotateX(radians(defX));
+    box.rotateY(radians(defY));
+    
+    //Roll & Pitch
+    box.rotateX(radians(roll));
+    box.rotateZ(radians(pitch));
+  }
+  
   PShape box;
-  int posX, posY; 
+  int posX, posY;
+  //Default rotations in degrees
+  float defX, defY,
+        roll = 0, pitch = 0; //Rotation by movement
   String boxPath = "Box.obj";
 }
