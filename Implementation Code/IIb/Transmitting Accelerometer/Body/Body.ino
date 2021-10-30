@@ -64,13 +64,6 @@ void switchChannel(int bus)
   Wire.endTransmission();
 }
 
-void trimCh(char *str)
-{
-  //Find 1st space
-  char *p = strchr(str, ' ');
-  if(p) *p = 0; //Set to end pointer
-}
-
 float readAcc()
 {
   //Accelerometer value is 10 bits but can only send 8 bits at a time, 
