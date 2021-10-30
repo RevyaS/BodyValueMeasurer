@@ -6,6 +6,10 @@ const uint64_t address = 250;
 
 RF24 radio = RF24(9, 10);
 float values[3]; 
+//1 acc value = 3 digits + 2 decimals + '.' + '-' = 7 bytes
+//3 acc values = 7 * 3 = 21 bytes
+//3 ',' between acc value = 3 bytes (3 + 21) = 24 total bytes
+//Add end value = 25 total bytes, + 3 bytes for good luck = 28 bytes
 char str[28] = "";
 
 void setup() {

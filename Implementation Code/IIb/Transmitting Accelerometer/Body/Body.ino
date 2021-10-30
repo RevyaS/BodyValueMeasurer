@@ -13,11 +13,7 @@ const int ADXL345 = 0x53,
           MUX = 0x70,
           ACCBUS = 2;
 RF24 radio(9, 10); //CE, CSN
-//1 acc value = 3 digits + 2 decimals + '.' + '-' = 7 bytes
-//3 acc values = 7 * 3 = 21 bytes
-//3 ',' between acc value = 3 bytes (3 + 21) = 24 total bytes
-//Add end value = 25 total bytes, + 3 bytes for good luck = 28 bytes
-char data[28] = "";
+
 
 const uint64_t address = 250; 
 
@@ -41,8 +37,6 @@ void setup() {
 
 void loop()
 {
-  //Clear data string
-  memset(data,0, sizeof(data));
   //Switch to accelerometer
   switchChannel(ACCBUS);
   //Communicate
@@ -55,18 +49,7 @@ void loop()
   {
     values[i] = readAcc() + offsets[i];
   }
-
-  for(int i = 0; i < 3; i++)
-  {
-    char val[8] = "";               //We need 7 values for the acc value + end pointer
-    dtostrf(values[i], -7, 2, val); //Convert float to char[]. 
-                                    //(float value, total bytes consumed, max decimal points, char[] where to save)
-    trimCh(val);                    //Remove whitespaces
-    strcat(data, val);              //data += val
-    strcat(data, ", ");             //data += ", "
-  }
-  
-  radio.write(&data, sizeof(data)); //Send data
+  radio.write(&values, sizeof(values)); //Send data
   delay(100);
 }
 
