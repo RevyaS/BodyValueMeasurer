@@ -23,7 +23,7 @@ void loop() {
      float values[12] = {0};
      radio.read(&values, sizeof(values));
 
-     for(int i = 0; i < 3; i++)
+     for(int i = 0; i < 12; i++)
      {
       char value[8];
       dtostrf(values[i], -7, 2, value); //Convert float to char[]
