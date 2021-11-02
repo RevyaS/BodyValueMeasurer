@@ -20,10 +20,10 @@ void loop() {
   if(radio.available())
   {
      memset(str, 0, sizeof(str));
-     float values[12] = {0};
+     float values[8] = {0};
      radio.read(&values, sizeof(values));
 
-     for(int i = 0; i < 12; i++)
+     for(int i = 0; i < 8; i++)
      {
       char value[8];
       dtostrf(values[i], -7, 2, value); //Convert float to char[]
