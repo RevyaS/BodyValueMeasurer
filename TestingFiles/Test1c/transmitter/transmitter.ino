@@ -14,7 +14,7 @@ void setup() {
 
 void loop() {
   //Write the data
-  String message = "Hello World";
+  char message[] = "Hello World";
   radio.write(&message, sizeof(message));
   delay(600);
 }
