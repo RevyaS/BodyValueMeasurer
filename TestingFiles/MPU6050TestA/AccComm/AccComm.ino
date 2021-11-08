@@ -43,6 +43,8 @@ void loop() {
 void calculateErrors()
 {
   int c = 0;
+  float accX, accY, accZ;
+          
   while (c < 200) {
   Wire.beginTransmission(MPU6050);
   Wire.write(0x3B);
