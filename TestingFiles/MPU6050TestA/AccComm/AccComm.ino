@@ -7,9 +7,11 @@ void setup() {
   Serial.begin(9600);
 
   Wire.begin();
-  //Initialize MPU6050
-  //Wire.beginTransmission(MPU6050);
-  //Wire.write(0x
+  //Reset Connections MPU6050
+  Wire.beginTransmission(MPU6050);
+  Wire.write(0x6B);
+  Wire.write(0x00);
+  Wire.endTransmission(true);
 }
 
 void loop() {
