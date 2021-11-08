@@ -1,7 +1,7 @@
 #include <Wire.h>
 
 const int MPU6050 = 0x68,
-          MUX = 0X70,
+          MUX = 0x70,
           bus = 6;
 
 const String base = "";
