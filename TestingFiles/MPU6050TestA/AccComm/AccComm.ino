@@ -1,12 +1,17 @@
 #include <Wire.h>
 
-const int MPU6050 = 0x68;
+const int MPU6050 = 0x68,
+          MUX = 0X70,
+          bus = 6;
+
 const String base = "";
 
 void setup() {
   Serial.begin(9600);
 
   Wire.begin();
+  
+  switchChannel(bus);
   //Reset Connections MPU6050
   Wire.beginTransmission(MPU6050);
   Wire.write(0x6B);
@@ -16,6 +21,7 @@ void setup() {
 
 void loop() {
   //Request Data
+  switchChannel(bus);
   Wire.beginTransmission(MPU6050);
   Wire.write(0x3B);
   Wire.endTransmission(false);
@@ -27,6 +33,13 @@ void loop() {
 
   Serial.println(base + (String)x + "," + y + "," + z);
 
+}
+
+void switchChannel(int channel)
+{
+  Wire.beginTransmission(MUX);
+  Wire.write(1 << channel);
+  Wire.endTransmission();
 }
 
 float readAcc()
