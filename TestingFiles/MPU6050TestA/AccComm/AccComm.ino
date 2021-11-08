@@ -3,6 +3,7 @@
 const int MPU6050 = 0x68,
           MUX = 0x70,
           bus = 6;
+float accErrX, accErrY;
 
 const String base = "";
 
@@ -44,6 +45,6 @@ void switchChannel(int channel)
 
 float readAcc()
 {
-  float value = Wire.read() | Wire.read() << 8;
+  float value = Wire.read() << 8 | Wire.read();
   return value/16384; //+-2g
 }
