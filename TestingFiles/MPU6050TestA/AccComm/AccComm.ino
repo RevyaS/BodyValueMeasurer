@@ -36,7 +36,7 @@ void loop() {
   float roll = (atan(y / sqrt(pow(x, 2) + pow(z, 2))) * 180 / PI) + calR; 
   float pitch = (atan(-1 * x / sqrt(pow(y, 2) + pow(z, 2))) * 180 / PI) + calP; 
 
-  Serial.println(base + (String)x + "," + y + "," + z + " : " + acc);
+  Serial.println(base + (String)x + "," + y + "," + z + " : " + roll + "," + pitch);
 }
 
 //Tests from 200 samples
