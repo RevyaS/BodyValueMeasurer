@@ -2,10 +2,15 @@
 
 Receiver::Receiver(uint64_t address)
 {
+  this->address = address;
+}
+
+void Receiver::begin()
+{
   radio = RF24(9, 10);
   radio.begin();
   radio.openReadingPipe(0, address);
-  radio.startListening();
+  radio.startListening(); 
 }
 
 float* Receiver::receive()

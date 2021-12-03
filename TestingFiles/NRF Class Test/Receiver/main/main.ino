@@ -5,6 +5,7 @@ Receiver receiver(address);
 
 void setup() {
   Serial.begin(9600);
+  receiver.begin();
 }
 
 void loop() {

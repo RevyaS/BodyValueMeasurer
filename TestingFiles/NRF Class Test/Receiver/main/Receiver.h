@@ -15,11 +15,13 @@ class Receiver
     bool isAvailable();
     char* getSerialString();
     float* getValues();
+    void begin();
   private:
     void trimCh(char *str); //Trims empty spaces on the right
     void appendFloat(float value, char* string);  //Appends float to char[]
     
     RF24 radio;
+    uint64_t address;
     // 2 values from roll & pitch * 4 accelerometers = 8 values
     float values[8];
     //String used to communicate /w Pose Generator
