@@ -11,10 +11,11 @@ const int buses[4] {
   0   //Right Thigh
 };
 
-const int offsets[3] = {
-  0.00,         //yOffset
-  0.00,         //xOffset
-  0.00          //zOffset
+const int offsets[4][3] = {
+  0.00, 0.00, 0.00,        //y, x, z Offset for Torso
+  0.00, 0.00, 0.00,        //y, x, z Offset for Arm
+  0.00, 0.00, 0.00,        //y, x, z Offset for Left Thigh
+  0.00, 0.00, 0.00,        //y, x, z Offset for Right Thigh
 };
 
 String base = "";
@@ -57,9 +58,9 @@ void loop()
     Wire.requestFrom(MPU6050, 6, true);
     int readings[3]; //Y, X, Z
      
-    for(int i = 0; i < 3; i++)
+    for(int j = 0; j < 3; i++)
     {
-      readings[i] = readAcc() + offsets[i];
+      readings[j] = readAcc() + offsets[i][j];
     }
   
     //Compute for Roll & Pitch
