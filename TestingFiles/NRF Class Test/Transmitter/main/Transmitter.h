@@ -11,6 +11,7 @@ class Transmitter
   public:
     Transmitter(uint64_t address);
     void transmit(float data[8]);
+    void begin();
   private:
     uint64_t address;
     RF24 radio;

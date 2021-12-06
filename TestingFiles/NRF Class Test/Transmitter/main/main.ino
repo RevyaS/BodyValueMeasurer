@@ -7,6 +7,7 @@ float values[8] = {0.025, -87.5988, -22.05889, 44.646, 798.45321, -845.123, 98.6
 Transmitter transmitter(address);
 
 void setup() {
+  transmitter.begin();
 }
 
 void loop() {

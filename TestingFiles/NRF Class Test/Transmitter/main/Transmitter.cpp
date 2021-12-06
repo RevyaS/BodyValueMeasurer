@@ -2,8 +2,12 @@
 
 Transmitter::Transmitter(uint64_t address)
 {
-  radio = RF24(9,10); //CE, CSN
   this->address = address;
+}
+
+void Transmitter::begin()
+{
+  radio = RF24(9,10); //CE, CSN
   radio.begin();
   radio.openWritingPipe(address);
   radio.stopListening();
