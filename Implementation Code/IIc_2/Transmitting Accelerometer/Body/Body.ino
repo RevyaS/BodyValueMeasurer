@@ -3,9 +3,17 @@
 #include <RF24.h>
 #include <Wire.h>
 
+//Channels for each accelerometer
+const int buses[4] {
+  0,  //Torso
+  0,  //Arm
+  0,  //Left Thigh
+  0   //Right Thigh
+};
+
 const int offsets[3] = {
-  0.00,         //xOffset
   0.00,         //yOffset
+  0.00,         //xOffset
   0.00          //zOffset
 };
 
@@ -15,7 +23,8 @@ const int MPU6050 = 0x68,
           ACCBUS = 2;
 RF24 radio(9, 10); //CE, CSN
 
-const uint64_t address = 250; 
+const uint64_t address = 250;
+int values[8];
 
 void setup() {
   //Setup Wireless Transceiver
@@ -32,31 +41,31 @@ void setup() {
   Wire.write(0x6B);
   Wire.write(0x00);
   Wire.endTransmission(true);
-  calculateErrors();
   delay(10);
 }
 
 void loop()
 {
-  //Switch to accelerometer
-  switchChannel(ACCBUS);
-  //Communicate
-  Wire.beginTransmission(MPU6050);
-  Wire.write(0x3B);             //Access value register
-  Wire.endTransmission(false);  //End connection while retaining access
-  Wire.requestFrom(MPU6050, 6, true);
-  int readings[3]; //X, Y, Z
-   
-  for(int i = 0; i < 3; i++)
+  for(int i = 0; i < 4; i++)
   {
-    readings[i] = readAcc() + offsets[i];
+    //Switch to accelerometer
+    switchChannel(buses[i]);
+    //Communicate
+    Wire.beginTransmission(MPU6050);
+    Wire.write(0x3B);             //Access value register
+    Wire.endTransmission(false);  //End connection while retaining access
+    Wire.requestFrom(MPU6050, 6, true);
+    int readings[3]; //Y, X, Z
+     
+    for(int i = 0; i < 3; i++)
+    {
+      readings[i] = readAcc() + offsets[i];
+    }
+  
+    //Compute for Roll & Pitch
+    values[i*2] = atan(values[0] / sqrt( pow(values[1], 2) + pow(values[2], 2))) * 180/PI;  //Roll
+    values[i*2+1] =  atan(-1 * values[2] / sqrt( pow(values[0], 2) + pow(values[1], 2))) * 180/PI;  //Pitch
   }
-
-  //Compute for Roll & Pitch
-  int values[2] = {
-    atan(values[1] / sqrt( pow(values[0], 2) + pow(values[2], 2))) + 180/PI,      //Roll
-    atan(-1 * values[2] / sqrt( pow(values[1], 2) + pow(values[0], 2))) * 180/PI  //Pitch
-  };
 
   radio.write(&values, sizeof(values)); //Send data
   delay(100);
@@ -79,29 +88,4 @@ float readAcc()
   //so 1st Wire.read() is 1st 8 bits, then 2nd Wire.read() is for the last 2 bits
   float value = Wire.read() << 8 | Wire.read();
   return value/16384; //To limit range to +- 2g
-}
-
-//Tests from 200 samples
-void calculateErrors()
-{
-  int c = 0;
-  float accX, accY, accZ,
-        accErrX, accErrY;
-  while (c < 200) {
-  Wire.beginTransmission(MPU6050);
-  Wire.write(0x3B);
-  Wire.endTransmission(false);
-  Wire.requestFrom(MPU6050, 6, true);
-  accX = (Wire.read() << 8 | Wire.read()) / 16384.0 ;
-  accY = (Wire.read() << 8 | Wire.read()) / 16384.0 ;
-  accZ = (Wire.read() << 8 | Wire.read()) / 16384.0 ;
-  // Sum all readings
-  accErrX = accErrX + ((atan((accY) / sqrt(pow((accX), 2) + pow((accZ), 2))) * 180 / PI));
-  accErrY = accErrY + ((atan(-1 * (accX) / sqrt(pow((accY), 2) + pow((accZ), 2))) * 180 / PI));
-  c++;
-  }
-  //Divide the sum by 200 to get the error value
-  accErrX = accErrX / 200;
-  accErrY = accErrY / 200;  
-  Serial.println(base + "Errors: X: " + (String)accErrX + " Y: " + accErrY);
 }

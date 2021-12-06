@@ -26,18 +26,14 @@ void loop() {
   {
      memset(str, 0, sizeof(str));
      radio.read(&values, sizeof(values));
-
+           
      //Get the 2 values
-     for(int i = 0; i < 2; i++)
+     for(int i = 0; i < 8; i++)
      {
-      //Get 7 bytes for acc value + end pointer
-      char valString[8];
-      dtostrf(values[i], -7, 2, valString);
-      trimCh(valString);
-      strcat(str, valString);
+      appendFloat(values[i], str);
       strcat(str, ",");
      }
-     strcat(str, "0,0,0,0,0,0,");
+     //strcat(str, "0,0,0,0,0,0,");
      Serial.println(str);
   }
 }
@@ -47,4 +43,15 @@ void trimCh(char *str)
 {
   char *p = strchr(str, ' '); //Search for space
   if(p) *p = 0; //Terminate
+}
+
+//Append float to char[]
+void appendFloat(float value, char* string)
+{
+   //Get (3 max whole number with 2 decimal point value (6 bytes) + 
+   // '-' in case of negative + end point = 8 bytes
+   char valueStr[8];
+   dtostrf(value, -7, 2, valueStr); //Convert float to char[]
+   trimCh(valueStr);                //Trim extra spaces
+   strcat(string, valueStr);        //Concat string 
 }
