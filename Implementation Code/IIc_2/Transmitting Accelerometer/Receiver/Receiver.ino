@@ -5,7 +5,7 @@
 const uint64_t address = 250;
 
 RF24 radio = RF24(9, 10);
-float values[2]; //Rol, Pitch
+float values[8]; //Rol, Pitch
 //1 acc value = 3 digits + 2 decimals + '.' + '-' = 7 bytes
 //2 acc values = 7 * 2 = 14 bytes
 //2 ',' between acc value = 2 bytes (2 + 14) = 16 total bytes

@@ -11,7 +11,7 @@ const int buses[4] {
   0   //Right Thigh
 };
 
-const int offsets[4][3] = {
+const float offsets[4][3] = {
   0.00, 0.00, 0.00,        //y, x, z Offset for Torso
   0.00, 0.00, 0.00,        //y, x, z Offset for Arm
   0.00, 0.00, 0.00,        //y, x, z Offset for Left Thigh
@@ -25,7 +25,7 @@ const int MPU6050 = 0x68,
 RF24 radio(9, 10); //CE, CSN
 
 const uint64_t address = 250;
-int values[8];
+float values[8];
 
 void setup() {
   //Setup Wireless Transceiver
@@ -35,14 +35,17 @@ void setup() {
 
   //Setup I2C connection
   Wire.begin();
-  //Move to channel 2 (Accelerometer location)
-  switchChannel(ACCBUS);
-  //Reset Connections MPU6050
-  Wire.beginTransmission(MPU6050);
-  Wire.write(0x6B);
-  Wire.write(0x00);
-  Wire.endTransmission(true);
-  delay(10);
+  for(int i = 0; i < 4; i++)
+  {
+    //Move to channel 2 (Accelerometer location)
+    switchChannel(buses[x]);
+    //Reset Connections MPU6050
+    Wire.beginTransmission(MPU6050);
+    Wire.write(0x6B);
+    Wire.write(0x00);
+    Wire.endTransmission(true);
+    delay(10);
+  }
 }
 
 void loop()
@@ -56,16 +59,16 @@ void loop()
     Wire.write(0x3B);             //Access value register
     Wire.endTransmission(false);  //End connection while retaining access
     Wire.requestFrom(MPU6050, 6, true);
-    int readings[3]; //Y, X, Z
+    float readings[3]; //Y, X, Z
      
-    for(int j = 0; j < 3; i++)
+    for(int j = 0; j < 3; j++)
     {
       readings[j] = readAcc() + offsets[i][j];
     }
   
     //Compute for Roll & Pitch
-    values[i*2] = atan(values[0] / sqrt( pow(values[1], 2) + pow(values[2], 2))) * 180/PI;  //Roll
-    values[i*2+1] =  atan(-1 * values[2] / sqrt( pow(values[0], 2) + pow(values[1], 2))) * 180/PI;  //Pitch
+    values[i*2] = atan(readings[0] / sqrt( pow(readings[1], 2) + pow(readings[2], 2))) * 180/PI;  //Roll
+    values[i*2+1] =  atan(-1 * readings[2] / sqrt( pow(readings[0], 2) + pow(readings[1], 2))) * 180/PI;  //Pitch
   }
 
   radio.write(&values, sizeof(values)); //Send data
