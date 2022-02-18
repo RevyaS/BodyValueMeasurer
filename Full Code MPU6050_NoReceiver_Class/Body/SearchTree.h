@@ -13,7 +13,7 @@ class SearchTree
   private:
     //Remember: 1 Line = 1 pose = 48 bytes = 4 bytes from 1 float * 3 parameters * 4 Accelerometers, we only have 25,656 remaining bytes
     const float DATA[Rows][Columns] = {
-      {0, 0, 0, 0, 0, 0, 0, 0} //Empty Pose Data
+      {0, 0, 0, 0, 0, 0, 0, 0} //Empty Pose Data, 2 for each accelerometer's roll & pitch
     };
   public:
     SearchTree();

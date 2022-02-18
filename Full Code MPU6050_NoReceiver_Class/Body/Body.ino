@@ -26,9 +26,15 @@ void loop() {
   }
 
   if(searcher.search(reader.readValues()))
-    digitalWrite(OUTPUT_PIN, HIGH);
+  {
+    Serial.print("true\n");
+    digitalWrite(OUTPUT_PIN, HIGH); 
+  }
   else
-    digitalWrite(OUTPUT_PIN, LOW);
+  {
+    Serial.print("false\n");
+    digitalWrite(OUTPUT_PIN, LOW); 
+  }
 
-  delay(300);
+  delay(200);
 }

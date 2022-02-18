@@ -33,7 +33,7 @@ class Reader
       {0, 0, 0},  //X offset, Y offset, Z offset
       //Right Thigh
       {0, 0, 0},  //X offset, Y offset, Z offset
-    }
+    };
     
     void switchChannel(int channel);
     float readAccValue();

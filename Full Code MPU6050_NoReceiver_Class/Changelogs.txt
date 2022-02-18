@@ -1,3 +1,6 @@
+v1.05
+- Added 9th value, that will be read as true or false in processing
+
 v1.04
 - Finalized the Pose Generator
 
