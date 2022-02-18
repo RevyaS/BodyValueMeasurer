@@ -18,6 +18,8 @@ const int ADXL345 = 0x53,
 char str[70] = "";
 
 void setup() {
+  Serial.begin(9600);
+  
   //Setup I2C connection
   Wire.begin();
   //Move to channel 2 (Accelerometer location)
