@@ -19,10 +19,13 @@ void setup()
   boxes[3] = br;
   
   //Establish Serial Connection
-  port = new Serial(this, "COM5", 9600);
-  port.bufferUntil('\n');
+  //port = new Serial(this, "COM5", 9600);
+  //port.bufferUntil('\n');
   
   setupData();
+  
+  //TESTING AREA
+  //boxes[0].setRotation(81.40, 8.60);
 }
 
 void draw()
@@ -53,12 +56,15 @@ void serialEvent(Serial myPort)
     {
       for(int j = 0; j < 2; j++)
       {
-        values[i][j] = float(items[i * 4 + j]);
+        values[i][j] = float(items[i * 2 + j]);
       }
       //1st value is roll, 2nd value is pitch
       boxes[i].setRotation(values[i][0], values[i][1]);
     }
+    //9th value is confirmation
+     lit = boolean(items[8]);
   }
+ 
   
 }
 
@@ -78,8 +84,16 @@ void drawHUD()
   text("Left Thigh", padding/2, height/2 + padding); //Bottom Left
   text("Right Thigh", width/2 + padding/2, height/2 + padding); //Bottom Left
   
+  //Checker Circle (Turns green)
+  int rad = 20;
+  if(lit) fill(50, 255, 50);
+  else fill(255, 50, 50);
+  noStroke();
+  ellipse(width/2, height/2 - 80, rad*2, rad*2);
+  
   //Value
   //Top Left torso
+  fill(255);
   text(values[0][0], 0, height/2 - 10);
   text(values[0][1], width/2 - 150, height/2 - 10);
   //Top Right Arm
@@ -130,7 +144,8 @@ BoxGuide tl, tr, bl, br; //Top Left, Top Right, Bottom Left, Bottom Right
 BoxGuide[] boxes;
 Button generate;
 
-//TEST
+//Data
+boolean lit = false; //sets the circle to green
 String buffer;
 float[][] values;
 PrintWriter output;
