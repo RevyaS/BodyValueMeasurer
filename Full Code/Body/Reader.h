@@ -9,6 +9,7 @@ class Reader
   public:
     Reader();
     float* readValues();
+    void setup();
   private:
     float calibrationValues[4][3] = {
       //TORSO 

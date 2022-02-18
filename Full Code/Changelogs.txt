@@ -1,3 +1,6 @@
+v1.08
+- Removed Receiver class in due to inconsistencies
+
 v1.04
 - Finalized the Pose Generator
 

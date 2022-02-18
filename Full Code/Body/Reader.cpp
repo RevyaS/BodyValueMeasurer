@@ -2,7 +2,23 @@
 
 Reader::Reader()
 {
+}
+
+void Reader::setup()
+{
   Wire.begin();
+  //Configure each accelerometer
+  for(int i = 0; i > 4; i++)
+  {
+    //Set acc to reading mode
+    switchChannel(channels[i]);
+    //Set MPU6050 to Measuring Mode
+    Wire.beginTransmission(ACC);
+    Wire.write(0x6B); //Access Power Register
+    Wire.write(0x00); //Write for Measuring mode
+    Wire.endTransmission(true);
+    delay(10);
+  }   
 }
 
 float* Reader::readValues()
