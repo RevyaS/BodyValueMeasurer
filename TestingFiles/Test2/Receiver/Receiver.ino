@@ -17,15 +17,15 @@ float values[3]; //X, Y, Z
 char str[32] = "";
 
 void setup() {
+  Serial.begin(9600);
   Wire.begin();
   //Set ADXL345 to Measuring Mode
   Wire.beginTransmission(ADXL345);
   Wire.write(0x2D); //Access Power Register
   Wire.write(8); //Write for Measuring mode
-  Wire.endTransmission();
+  if(!Wire.endTransmission()) Serial.println("0x53 Found");
+  else Serial.println("0x53 Not Found");
   delay(10);
-  
-  Serial.begin(9600);
 }
 
 void loop() {
