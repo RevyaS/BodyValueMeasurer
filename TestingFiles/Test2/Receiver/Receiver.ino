@@ -10,7 +10,7 @@
 //END OF CALIBRATION
 
 const uint64_t address; // Communication address
-const int ADXL345 = 0x35; //I2C address
+const int ADXL345 = 0x53; //I2C address
 
 RF24 radio = RF24(9, 10);
 float values[3]; //X, Y, Z 
