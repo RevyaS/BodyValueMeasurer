@@ -10,7 +10,7 @@
 //END OF CALIBRATION
 
 const uint64_t address; // Communication address
-const int ADXL345 = 0x53; //I2C address
+const int ADXL345 = 0x35; //I2C address
 
 RF24 radio = RF24(9, 10);
 float values[3]; //X, Y, Z 
@@ -18,13 +18,20 @@ char str[32] = "";
 
 void setup() {
   Serial.begin(9600);
+  
   Wire.begin();
+  
   //Set ADXL345 to Measuring Mode
+  Serial.println("Read Test);
+  Wire.beginTransmission(ADXL345);
+  Serial.println(Wire.endTransmission());
+  delay(10);
+
+  Serial.println("Communication Test");
   Wire.beginTransmission(ADXL345);
   Wire.write(0x2D); //Access Power Register
   Wire.write(8); //Write for Measuring mode
-  if(!Wire.endTransmission()) Serial.println("0x53 Found");
-  else Serial.println("0x53 Not Found");
+  Serial.println(Wire.endTransmission());
   delay(10);
 }
 
@@ -56,7 +63,7 @@ float readWire()
   //ADXL345 Accelerometer values are 10 bits but can only send 8 bits at a time
   //So 1st Wire.read() is for 1st 8 bits then 2nd Wire.read() is for last 2 bits
   float values = Wire.read() | Wire.read() << 8; //Use | to append both bits
-  return values/256;
+  return values;
 }
 
 float trimCh(char *str)
