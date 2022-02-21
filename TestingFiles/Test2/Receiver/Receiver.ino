@@ -56,7 +56,7 @@ float readWire()
   //ADXL345 Accelerometer values are 10 bits but can only send 8 bits at a time
   //So 1st Wire.read() is for 1st 8 bits then 2nd Wire.read() is for last 2 bits
   float values = Wire.read() | Wire.read() << 8; //Use | to append both bits
-  return values;
+  return values/256;
 }
 
 float trimCh(char *str)
