@@ -27,6 +27,8 @@ const uint64_t address = 250;
 float values[8];
 
 void setup() {
+  Serial.begin(9600);
+  
   //Setup Wireless Transceiver
   radio.begin();
   radio.openWritingPipe(address);
