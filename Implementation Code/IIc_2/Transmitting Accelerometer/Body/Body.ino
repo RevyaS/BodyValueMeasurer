@@ -20,8 +20,7 @@ const float offsets[4][3] = {
 
 String base = "";
 const int MPU6050 = 0x68,
-          MUX = 0x70,
-          ACCBUS = 2;
+          MUX = 0x70;
 RF24 radio(9, 10); //CE, CSN
 
 const uint64_t address = 250;
@@ -38,7 +37,7 @@ void setup() {
   for(int i = 0; i < 4; i++)
   {
     //Move to channel 2 (Accelerometer location)
-    switchChannel(buses[x]);
+    switchChannel(buses[i]);
     //Reset Connections MPU6050
     Wire.beginTransmission(MPU6050);
     Wire.write(0x6B);
@@ -69,7 +68,10 @@ void loop()
     //Compute for Roll & Pitch
     values[i*2] = atan(readings[0] / sqrt( pow(readings[1], 2) + pow(readings[2], 2))) * 180/PI;  //Roll
     values[i*2+1] =  atan(-1 * readings[2] / sqrt( pow(readings[0], 2) + pow(readings[1], 2))) * 180/PI;  //Pitch
+  
+    Serial.print(base + values[i*2] + "," + values[1*2+1] + ",");
   }
+  Serial.println();
 
   radio.write(&values, sizeof(values)); //Send data
   delay(100);
