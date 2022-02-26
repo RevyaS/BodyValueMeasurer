@@ -2,7 +2,22 @@
 
 Reader::Reader()
 {
+}
+
+void Reader::setup()
+{
   Wire.begin();
+  for(int i = 0; i < 4; i++)
+  {
+    //Move to channel 2 (Accelerometer location)
+    switchChannel(channels[i]);
+    //Reset Connections MPU6050
+    Wire.beginTransmission(ACC);
+    Wire.write(0x6B);
+    Wire.write(0x00);
+    Wire.endTransmission(true);
+    delay(10);
+  }
 }
 
 float* Reader::readValues()
