@@ -13,6 +13,7 @@ const int ADXL345 = 0x53,
           MUX = 0x70,
           ACCBUS = 2;
 RF24 radio(9, 10); //CE, CSN
+const String base = "";
 
 
 const uint64_t address = 250; 
@@ -33,10 +34,14 @@ void setup() {
   Wire.write(8);      //Write for Measuring mode
   Wire.endTransmission();
   delay(10);
+  
+  //For Testing
+  Serial.begin(9600);
 }
 
 void loop()
 {
+  String value = "";
   //Switch to accelerometer
   switchChannel(ACCBUS);
   //Communicate
@@ -49,6 +54,8 @@ void loop()
   {
     values[i] = readAcc() + offsets[i];
   }
+  value += (String)values[0] + "," + values[1] + "," + values[2];
+  Serial.println(value);
   radio.write(&values, sizeof(values)); //Send data
   delay(100);
 }
