@@ -4,7 +4,7 @@
 
 const uint64_t address = 250;
 
-RF24 radio = RF24(9, 10);
+RF24(9, 10);
 float values[3]; 
 //1 acc value = 3 digits + 2 decimals + '.' + '-' = 7 bytes
 //3 acc values = 7 * 3 = 21 bytes
