@@ -3,7 +3,7 @@
 #include <RF24.h>
 #include <Wire.h>
 
-const int offsets[3] = {
+const float offsets[3] = {
   0.00,         //xOffset
   0.00,         //yOffset
   0.00          //zOffset
