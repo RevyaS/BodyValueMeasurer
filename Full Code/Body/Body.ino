@@ -32,7 +32,7 @@ void setup() {
 
   Wire.begin();
   //Configure each accelerometer
-  for(int i = 0; i > 4; i++)
+  for(int i = 0; i < 4; i++)
   {
     //Set acc to reading mode
     switchChannel(buses[i]);
